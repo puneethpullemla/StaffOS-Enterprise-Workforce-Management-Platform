@@ -6,7 +6,7 @@ import {
   getDepartments,
   deleteDepartment,
 } from "../services/department";
-import toast from "react-hot-toast";
+
 
 interface Department {
   id: number;

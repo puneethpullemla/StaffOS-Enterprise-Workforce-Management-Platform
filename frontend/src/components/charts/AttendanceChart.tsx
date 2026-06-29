@@ -58,7 +58,7 @@ export default function AttendanceChart({
           label
         >
 
-          {chartData.map((entry, index) => (
+          {chartData.map((_, index) => (
 
             <Cell
               key={index}
