@@ -88,7 +88,7 @@ export default function Login() {
           </div>
 
           <h2 className="mb-6 text-5xl font-bold leading-tight">
-            Workforce Management
+            StaffOS Enterprise
             <br />
             made simple.
           </h2>
