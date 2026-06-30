@@ -1,0 +1,45 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/StaffOS-Enterprise-Workforce-Management-Platform
+
+            echo "Pulling latest code..."
+            git pull origin main
+
+            echo "Rebuilding backend..."
+            docker compose down
+            docker compose up --build -d
+
+            echo "Running migrations..."
+            docker exec staffos-backend alembic upgrade head
+
+            echo "Building frontend..."
+            cd frontend
+            npm install
+            npm run build
+
+            echo "Deploying frontend..."
+            sudo rm -rf /var/www/html/*
+            sudo cp -r dist/* /var/www/html/
+
+            echo "Restarting Nginx..."
+            sudo systemctl restart nginx
+
+            echo "Deployment completed successfully!"
