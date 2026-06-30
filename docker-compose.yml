@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: staffos-db
+    restart: always
+    environment:
+      POSTGRES_DB: staffos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+
+    container_name: staffos-backend
+
+    restart: always
+
+    env_file:
+      - backend/.env.production
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

@@ -18,8 +18,12 @@ backend/*.db
 backend/*.sqlite3
 
 # Environment Variables
+# Environment Variables
 backend/.env
-backend/.env.*
+backend/.env.production
+backend/.env.local
+frontend/.env
+frontend/.env.local
 
 # VS Code
 .vscode/
